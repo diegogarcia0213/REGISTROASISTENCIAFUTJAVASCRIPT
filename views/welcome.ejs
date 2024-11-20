@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bienvenida</title>
+        <link rel="stylesheet" href="/styles.css">
+    </head>
+    <body>
+        <h1>¡Bienvenido!</h1>
+        <a href="/">Cerrar sesión</a>
+        <h1>Registrar Asistencias de Fútbol</h1>
+        <form action="/attendance/create" method="POST">
+            <label for="date">Fecha:</label>
+            <input type="date" id="date" name="date" required>
+        
+            <label for="location">Lugar:</label>
+            <input type="text" id="location" name="location" required>
+        
+            <label for="player_count">Cantidad de Jugadores:</label>
+            <input type="number" id="player_count" name="player_count" required>
+        
+            <button type="submit">Registrar</button>
+          </form>
+        
+          <h2>Historial de Asistencias</h2>
+          <table border="1">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Lugar</th>
+                <th>Cantidad de Jugadores</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% attendances.forEach(attendance => { %>
+                <tr>
+                  <td><%= attendance.date %></td>
+                  <td><%= attendance.location %></td>
+                  <td><%= attendance.player_count %></td>
+                  <td>
+                    <form action="/attendance/edit" method="GET">
+                        <input type="hidden" id="id" name="id" value="<%= attendance.id %>" />
+                        <button class="btn-edit" type="submit">Editar</button>
+                    </form>
+                  </td>
+                  <td>
+                    <form action="/attendance/delete" method="POST">
+                        <input type="hidden" id="id" name="id" value="<%= attendance.id %>" />
+                        <button class="btn-delete" type="submit">Eliminar</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+    </body>
+</html>
